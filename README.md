@@ -68,4 +68,4 @@ Per avviare il progetto sul tuo computer:
 7. Apri il browser all'indirizzo `http://127.0.0.1:8000/`.
 
 ## Link al sito live
-*Link al deploy:* 
+*Link al deploy:* https://ppm-backend-damodio.onrender.com
