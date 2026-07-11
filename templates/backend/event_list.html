@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="text-center mb-5 mt-3">
+    <h1 class="fw-bold display-4">Esplora Eventi</h1>
+    <p class="text-muted fs-5">Scopri i migliori eventi organizzati dalla community.</p>
+</div>
+
+<div class="row">
+    {% for event in events %}
+    <div class="col-md-4 col-lg-3 mb-4">
+        <div class="card h-100 border-0 shadow-sm">
+            {% if event.poster %}
+                <img src="{{ event.poster.url }}" class="card-img-top" alt="Poster" style="height: 180px; object-fit: cover; border-radius: 12px 12px 0 0;">
+            {% else %}
+                <div class="bg-dark text-white d-flex justify-content-center align-items-center" style="height: 180px; border-radius: 12px 12px 0 0;">
+                    <span class="text-muted">No Image</span>
+                </div>
+            {% endif %}
+            
+            <div class="card-body">
+                <span class="badge bg-secondary mb-2">{{ event.category.name }}</span>
+                <h5 class="card-title fw-bold text-dark">{{ event.title }}</h5>
+                <p class="text-muted small mb-1">{{ event.date|date:"d M Y, H:i" }}</p>
+                <p class="text-muted small">{{ event.location.name }}</p>
+            </div>
+            <div class="card-footer bg-white border-0 pt-0 pb-3">
+                <a href="{% url 'backend:event_detail' event.id %}" class="btn btn-outline-dark w-100 rounded-pill">Scopri di più</a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12 text-center">
+        <p class="text-muted">Nessun evento disponibile al momento.</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

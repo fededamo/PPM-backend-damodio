@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Dashboard - {{ user.username }}</h2>
+    {% if user.is_organizer %}
+        <a href="{% url 'backend:event_create' %}" class="btn btn-success">+ Crea Evento</a>
+    {% endif %}
+</div>
+
+{% if user.is_organizer %}
+    <h4 class="mb-3 text-muted">I Miei Eventi Organizzati</h4>
+    {% if organized_events %}
+        <div class="row">
+            {% for event in organized_events %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    {% if event.poster %}
+                        <img src="{{ event.poster.url }}" class="card-img-top" alt="Poster" style="height: 200px; object-fit: cover;">
+                    {% else %}
+                        <div class="bg-secondary text-white d-flex justify-content-center align-items-center" style="height: 200px;">
+                            <span>No Poster</span>
+                        </div>
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title fw-bold">{{ event.title }}</h5>
+                        <p class="text-muted small mb-2"><i class="bi bi-calendar"></i> {{ event.date|date:"d M Y, H:i" }}</p>
+                        <p class="card-text text-truncate">{{ event.description }}</p>
+                    </div>
+                    <div class="card-footer bg-white border-top-0 d-flex justify-content-between pb-3">
+                        <a href="{% url 'backend:event_detail' event.id %}" class="btn btn-outline-primary btn-sm">Dettagli</a>
+                        <div>
+                            <a href="{% url 'backend:event_update' event.id %}" class="btn btn-warning btn-sm">Modifica</a>
+                            <a href="{% url 'backend:event_delete' event.id %}" class="btn btn-danger btn-sm">Elimina</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info">Non hai ancora organizzato nessun evento.</div>
+    {% endif %}
+
+{% else %}
+    <h4 class="mb-3 text-muted">I Miei Eventi Prenotati</h4>
+    {% if registrations %}
+        <div class="row">
+            {% for reg in registrations %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <span class="badge bg-primary mb-2">{{ reg.event.category.name }}</span>
+                        <h5 class="card-title fw-bold">{{ reg.event.title }}</h5>
+                        <p class="text-muted small mb-2">{{ reg.event.date|date:"d M Y, H:i" }}</p>
+                        <p class="card-text text-truncate">{{ reg.event.description }}</p>
+                    </div>
+                    <div class="card-footer bg-white border-top-0 pb-3">
+                        <a href="{% url 'backend:event_detail' reg.event.id %}" class="btn btn-outline-primary w-100">Vai all'Evento</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info">Non sei registrato a nessun evento. <a href="{% url 'backend:event_list' %}">Esplora gli eventi</a>.</div>
+    {% endif %}
+{% endif %}
+
+{% endblock %}

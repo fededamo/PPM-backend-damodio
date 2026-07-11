@@ -1,0 +1,131 @@
+[
+{
+  "model": "users.customuser",
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$yTDRToAqxAE4jnEsziPZll$0wAMyiCnXlRgCyf1i/3WJ2UOY6o+Vw9wRy58TXUhCVM=",
+    "last_login": null,
+    "is_superuser": true,
+    "username": "admin",
+    "first_name": "",
+    "last_name": "",
+    "email": "admin@example.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2026-07-09T20:42:52.376Z",
+    "role": "attendee",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.customuser",
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$IaXKHW7CyadhNVoLvW9yjd$iwRcAJKT17KtFHPt9nbp9P4f0cLehMOuXYlUXeVB20o=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "org_demo",
+    "first_name": "",
+    "last_name": "",
+    "email": "org@example.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-07-11T11:37:44.326Z",
+    "role": "organizer",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.customuser",
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$lScnPQLp0DoJWvBYkptP3q$L5YiT8b0dfndzUb52rF782Vx0SttpNXWWH6jT1jbYe0=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "att_demo",
+    "first_name": "",
+    "last_name": "",
+    "email": "att@example.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-07-11T11:37:44.471Z",
+    "role": "attendee",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "backend.category",
+  "pk": 3,
+  "fields": {
+    "name": "Technology"
+  }
+},
+{
+  "model": "backend.category",
+  "pk": 4,
+  "fields": {
+    "name": "Music"
+  }
+},
+{
+  "model": "backend.location",
+  "pk": 3,
+  "fields": {
+    "name": "Main Hall",
+    "address": "123 Tech Street, Silicon Valley",
+    "created_at": "2026-07-11T11:37:44.618Z"
+  }
+},
+{
+  "model": "backend.location",
+  "pk": 4,
+  "fields": {
+    "name": "Central Park",
+    "address": "New York, NY",
+    "created_at": "2026-07-11T11:37:44.619Z"
+  }
+},
+{
+  "model": "backend.event",
+  "pk": 4,
+  "fields": {
+    "title": "AI Summit 2026",
+    "description": "The largest AI conference of the year.",
+    "date": "2026-08-10T11:37:44.620Z",
+    "category": 3,
+    "location": 3,
+    "poster": "",
+    "organizer": [
+      "org_demo"
+    ],
+    "created_at": "2026-07-11T11:37:44.621Z"
+  }
+},
+{
+  "model": "backend.event",
+  "pk": 5,
+  "fields": {
+    "title": "Summer Open Air Concert",
+    "description": "Live music in the park.",
+    "date": "2026-07-26T11:37:44.622Z",
+    "category": 4,
+    "location": 4,
+    "poster": "",
+    "organizer": [
+      "org_demo"
+    ],
+    "created_at": "2026-07-11T11:37:44.623Z"
+  }
+},
+{
+  "model": "backend.registration",
+  "pk": 3,
+  "fields": {
+    "attendee": [
+      "att_demo"
+    ],
+    "event": 4,
+    "registered_at": "2026-07-11T11:37:44.624Z"
+  }
+}
+]

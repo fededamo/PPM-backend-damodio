@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="row justify-content-center mt-4 mb-5">
+    <div class="col-md-8">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-primary text-white">
+                <h3 class="mb-0">{% if object %}Modifica{% else %}Crea Nuovo{% endif %} Evento</h3>
+            </div>
+            <div class="card-body p-4">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <div class="d-flex justify-content-end gap-2 mt-4">
+                        <a href="{% url 'users:dashboard' %}" class="btn btn-outline-secondary">Annulla</a>
+                        <button type="submit" class="btn btn-primary fw-bold">Salva Evento</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

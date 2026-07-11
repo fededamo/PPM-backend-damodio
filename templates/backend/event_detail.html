@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row mt-4">
+    <div class="col-md-8">
+        {% if event.poster %}
+            <img src="{{ event.poster.url }}" class="img-fluid rounded mb-4 shadow-sm w-100" alt="Poster" style="max-height: 400px; object-fit: cover;">
+        {% endif %}
+        
+        <h1 class="fw-bold">{{ event.title }}</h1>
+        <div class="d-flex gap-2 mb-4">
+            <span class="badge bg-primary fs-6">{{ event.category.name }}</span>
+            <span class="badge bg-secondary fs-6"><i class="bi bi-geo-alt"></i> {{ event.location.name }}</span>
+        </div>
+        
+        <div class="card bg-white border-0 shadow-sm mb-4">
+            <div class="card-body">
+                <h4 class="fw-bold mb-3">Informazioni Evento</h4>
+                <p><strong>Data e Ora:</strong> {{ event.date|date:"d M Y, H:i" }}</p>
+                <p><strong>Indirizzo:</strong> {{ event.location.address }}</p>
+                <p><strong>Organizzatore:</strong> {{ event.organizer.username }}</p>
+                <hr>
+                <p class="fs-5">{{ event.description }}</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm sticky-top" style="top: 20px;">
+            <div class="card-body text-center p-4">
+                <h5 class="fw-bold mb-4">Partecipazione</h5>
+                
+                {% if user.is_authenticated %}
+                    {% if user.is_organizer %}
+                        {% if user == event.organizer %}
+                            <p class="text-muted">Questo è il tuo evento.</p>
+                            <a href="{% url 'backend:event_update' event.id %}" class="btn btn-warning w-100 mb-2">Modifica Evento</a>
+                            <a href="{% url 'backend:event_delete' event.id %}" class="btn btn-outline-danger w-100">Elimina Evento</a>
+                        {% else %}
+                            <p class="text-muted">Gli organizzatori non possono iscriversi ad eventi altrui.</p>
+                        {% endif %}
+                    {% else %}
+                        {% if is_registered %}
+                            <form action="{% url 'backend:event_unregister' event.id %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-outline-danger w-100 py-2 fw-bold">Annulla Iscrizione</button>
+                            </form>
+                        {% else %}
+                            <form action="{% url 'backend:event_register' event.id %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-primary w-100 py-2 fw-bold">Iscriviti Ora</button>
+                            </form>
+                        {% endif %}
+                    {% endif %}
+                {% else %}
+                    <p class="text-muted">Effettua il login per iscriverti.</p>
+                    <a href="{% url 'users:login' %}?next={{ request.path }}" class="btn btn-outline-primary w-100">Login</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% if user == event.organizer %}
+<div class="row mt-5 mb-5">
+    <div class="col-12">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-dark text-white">
+                <h5 class="mb-0">Gestione Partecipanti ({{ attendees.count }})</h5>
+            </div>
+            <div class="card-body p-0">
+                {% if attendees %}
+                <table class="table table-hover mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Data Iscrizione</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for reg in attendees %}
+                        <tr>
+                            <td>{{ reg.attendee.username }}</td>
+                            <td>{{ reg.attendee.email }}</td>
+                            <td>{{ reg.registered_at|date:"d M Y, H:i" }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <div class="p-4 text-center text-muted">
+                    Nessun partecipante ancora registrato a questo evento.
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}
